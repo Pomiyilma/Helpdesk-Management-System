@@ -1,13 +1,89 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
-  provider = "prisma-client"
-  output   = "../app/generated/prisma"
+  provider = "prisma-client-js"
+  output   = "./generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
+}
+
+model User {
+  id              String          @id @default(cuid())
+  email           String          @unique
+  password        String
+  name            String?
+  role            Role            @default(EMPLOYEE)
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  comments        TicketComment[]
+  assignedTickets Ticket[]        @relation("AssignedTo")
+  createdTickets  Ticket[]        @relation("CreatedBy")
+
+  @@map("users")
+}
+
+model Ticket {
+  id           String          @id @default(cuid())
+  ticketId     String          @unique @default("TKT-0000")
+  title        String
+  description  String
+  category     Category
+  priority     Priority
+  status       Status          @default(OPEN)
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+  createdById  String
+  assignedToId String?
+  comments     TicketComment[]
+  assignedTo   User?           @relation("AssignedTo", fields: [assignedToId], references: [id])
+  createdBy    User            @relation("CreatedBy", fields: [createdById], references: [id])
+
+  @@map("tickets")
+}
+
+model TicketComment {
+  id        String      @id @default(cuid())
+  content   String
+  type      CommentType @default(COMMENT)
+  createdAt DateTime    @default(now())
+  ticketId  String
+  userId    String
+  ticket    Ticket      @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  user      User        @relation(fields: [userId], references: [id])
+
+  @@map("ticket_comments")
+}
+
+enum Role {
+  MANAGER
+  TECHNICAL
+  EMPLOYEE
+}
+
+enum Category {
+  IT_SUPPORT
+  FACILITIES
+  HR
+  OTHER
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum Status {
+  OPEN
+  ASSIGNED
+  IN_PROGRESS
+  RESOLVED
+  CLOSED
+}
+
+enum CommentType {
+  COMMENT
+  STATUS_CHANGE
+  ASSIGNMENT
 }

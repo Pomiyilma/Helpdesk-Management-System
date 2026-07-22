@@ -1,0 +1,96 @@
+// prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String // hashed
+  name      String?
+  role      Role     @default(EMPLOYEE)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  createdTickets  Ticket[]        @relation("CreatedBy")
+  assignedTickets Ticket[]        @relation("AssignedTo")
+  comments        TicketComment[]
+
+  @@map("users")
+}
+
+model Ticket {
+  id          String   @id @default(cuid())
+  ticketId    String   @unique @default("TKT-0000") // Will be generated in code
+  title       String
+  description String
+  category    Category
+  priority    Priority
+  status      Status   @default(OPEN)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  createdById  String
+  assignedToId String?
+
+  createdBy  User  @relation("CreatedBy", fields: [createdById], references: [id])
+  assignedTo User? @relation("AssignedTo", fields: [assignedToId], references: [id])
+
+  comments TicketComment[]
+
+  @@map("tickets")
+}
+
+model TicketComment {
+  id        String      @id @default(cuid())
+  content   String
+  type      CommentType @default(COMMENT) // COMMENT or STATUS_CHANGE or ASSIGNMENT
+  createdAt DateTime    @default(now())
+
+  ticketId String
+  userId   String
+
+  ticket Ticket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@map("ticket_comments")
+}
+
+enum Role {
+  MANAGER
+  TECHNICAL
+  EMPLOYEE
+}
+
+enum Category {
+  IT_SUPPORT
+  FACILITIES
+  HR
+  OTHER
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum Status {
+  OPEN
+  ASSIGNED
+  IN_PROGRESS
+  RESOLVED
+  CLOSED
+}
+
+enum CommentType {
+  COMMENT
+  STATUS_CHANGE
+  ASSIGNMENT
+}
