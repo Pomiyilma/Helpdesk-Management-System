@@ -43,25 +43,14 @@ export default function TicketFilters({ searchParams, technicalStaff, userRole }
   const [sortBy, setSortBy] = useState(searchParams.sortBy || 'date');
 
   const updateFilters = () => {
-    const params = new URLSearchParams(searchParamsObj.toString());
+    const params = new URLSearchParams();
     
     if (status) params.set('status', status);
-    else params.delete('status');
-    
     if (priority) params.set('priority', priority);
-    else params.delete('priority');
-    
     if (category) params.set('category', category);
-    else params.delete('category');
-    
     if (assignedTo) params.set('assignedTo', assignedTo);
-    else params.delete('assignedTo');
-    
     if (search) params.set('search', search);
-    else params.delete('search');
-    
     if (sortBy) params.set('sortBy', sortBy);
-    else params.delete('sortBy');
 
     router.push(`/tickets?${params.toString()}`);
   };
