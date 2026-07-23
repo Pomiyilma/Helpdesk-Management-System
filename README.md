@@ -2,7 +2,7 @@
 
 This is the required full-featured helpdesk ticketing system built with TypeScript, Next.js 14+, Prisma, and PostgreSQL. Regular employees can report issues, technical staff resolve them, and managers coordinate assignments.
 
-I want to apologize for the generic looking UI I have implemented. It is beacuse I was heavily focused on tradeoffs and some behind-the-scene activities that happen while developing this system. Since it was my first time working with Prisma as well, I had to give the backend most of my attention. Even though most of the system architectures were specified on the file, I had to understand why one was better than the other and what else could have made the system more efficient and more optimal. Those tasks took lots of time to divulge that I couldn't make the frontend and UI/UX as spectacular as I can. 
+Firstly, I want to apologize for the generic looking UI I have implemented. I have tried to make the user interface as beautiful as possible. But the reason I didn't gave much of my time on it is beacuse I was heavily focused on tradeoffs and some behind-the-scene activities that happen while developing this system. Since it was my first time working with Prisma as well, I had to give the backend most of my attention. Even though most of the system architectures were specified on the file, I had to understand why one was better than the other and what else could have made the system more efficient and more optimal. Those tasks took lots of time to divulge that I couldn't make the frontend and UI/UX as spectacular as I can. 
 
 ## Features
 
@@ -286,7 +286,6 @@ helpdesk-management/
 │   └── seed.ts                  # Database seeding script
 └── middleware.ts                # Route protection middleware
 ```
-
 
 
 This is what the system looks like in general. The only thing I believe needs more focus is the 'Apply Filters' button, which keeps breaking other functionalities as I fix it again and again. So I decided to leave it be. Other than that everything looks and works alright. 
