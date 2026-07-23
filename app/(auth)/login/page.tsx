@@ -7,6 +7,7 @@ import { loginSchema } from '@/lib/validations/auth';
 import { loginAction } from '@/app/actions/auth-actions';
 import { useState } from 'react';
 import { z } from 'zod';
+import { BeamsBackgroundPanel } from '@/components/ui/beams-background-panel';
 
 type LoginFormData = z.infer<typeof loginSchema>;
 
@@ -28,8 +29,9 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,_rgba(56,189,248,0.2),_transparent_30%),linear-gradient(135deg,_#f8fbff_0%,_#eef4ff_55%,_#fdfcfb_100%)] px-4 py-10 sm:px-6 lg:px-8">
       <div className="mx-auto flex max-w-6xl flex-col overflow-hidden rounded-[32px] border border-slate-200/70 bg-white/80 shadow-[0_30px_90px_rgba(15,23,42,0.1)] backdrop-blur lg:flex-row">
-        <div className="flex flex-1 flex-col justify-between bg-gradient-to-br from-slate-900 via-slate-800 to-violet-700 p-8 text-white sm:p-10 lg:p-12">
-          <div>
+        <div className="relative flex flex-1 flex-col justify-between overflow-hidden p-8 text-white sm:p-10 lg:p-12">
+          <BeamsBackgroundPanel intensity="medium" />
+          <div className="relative z-10">
             <p className="text-sm font-semibold uppercase tracking-[0.3em] text-slate-300">Helpdesk Studio</p>
             <h1 className="mt-4 text-3xl font-semibold sm:text-4xl">Welcome back to calmer support.</h1>
             <p className="mt-4 max-w-md text-sm leading-7 text-slate-300 sm:text-base">
@@ -37,7 +39,7 @@ export default function LoginPage() {
             </p>
           </div>
 
-          <div className="mt-8 rounded-2xl border border-white/20 bg-white/10 p-4 text-sm text-slate-200">
+          <div className="relative z-10 mt-8 rounded-2xl border border-white/20 bg-white/10 p-4 text-sm text-slate-200">
             <p className="font-medium">Try using the seeded accounts to explore the experience.</p>
             <p className="mt-2 text-slate-300">manager1@company.com • tech1@company.com • emp1@company.com</p>
           </div>
