@@ -2,7 +2,7 @@
 
 This is the required full-featured helpdesk ticketing system built with TypeScript, Next.js 14+, Prisma, and PostgreSQL. Regular employees can report issues, technical staff resolve them, and managers coordinate assignments.
 
-Firstly, I want to apologize for the generic looking UI I have implemented. I have tried to make the user interface as beautiful as possible. But the reason I didn't gave much of my time on it is beacuse I was heavily focused on tradeoffs and some behind-the-scene activities that happen while developing this system. Since it was my first time working with Prisma as well, I had to give the backend most of my attention. Even though most of the system architectures were specified on the file, I had to understand why one was better than the other and what else could have made the system more efficient and more optimal. Those tasks took lots of time to divulge that I couldn't make the frontend and UI/UX as spectacular as I can. 
+Firstly, I want to apologize for the generic looking UI I have implemented. I have tried to make the user interface as beautiful as possible. But the reason I didn't gave much of my time on it is because I was heavily focused on tradeoffs and some behind-the-scene activities that happen while developing this system. Since it was my first time working with Prisma as well, I had to give the backend most of my attention. Even though most of the system architectures were specified on the file, I had to understand why one was better than the other and what else could have made the system more efficient and more optimal. Those tasks took lots of time to divulge that I couldn't make the frontend and UI/UX as spectacular as I can. 
 
 ## Features
 
@@ -81,6 +81,14 @@ Firstly, I want to apologize for the generic looking UI I have implemented. I ha
 **Ticket Creation**
 - Form with all required fields
 - Submit creates ticket with Open status
+
+
+
+<img src="app/public/image.png" alt="Image Description" width="600"/>
+
+<img src="app/public/image1.png" alt="Image Description 1" width="600"/>
+
+
 
 ### Technical Implementation
 
