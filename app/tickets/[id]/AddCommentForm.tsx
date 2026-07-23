@@ -34,8 +34,8 @@ export default function AddCommentForm({ ticketId }: { ticketId: string }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <h3 className="text-lg font-semibold text-slate-900">Add comment</h3>
-        <p className="mt-1 text-sm text-slate-500">Share an update with everyone who can access this ticket.</p>
+        <h3 className="text-lg font-semibold" style={{color: '#424f46'}}>Add comment</h3>
+        <p className="mt-1 text-sm" style={{color: '#94A7AE'}}>Share an update with everyone who can access this ticket.</p>
       </div>
 
       {error && (
@@ -46,14 +46,16 @@ export default function AddCommentForm({ ticketId }: { ticketId: string }) {
         value={content}
         onChange={(event) => setContent(event.target.value)}
         placeholder="Add a comment or update..."
-        className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-100"
+        className="w-full rounded-2xl border px-4 py-3 text-sm outline-none transition focus:ring-2 focus:ring-[#94A7AE]"
+        style={{borderColor: '#6d7570', backgroundColor: 'white', color: '#424f46'}}
         rows={3}
       />
 
       <button
         type="submit"
         disabled={isPending || !content.trim()}
-        className="rounded-2xl bg-gradient-to-r from-sky-500 to-violet-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-sky-200 transition hover:opacity-90 disabled:opacity-60"
+        className="rounded-2xl px-5 py-3 text-sm font-semibold text-white shadow-lg transition hover:opacity-90 disabled:opacity-60"
+        style={{background: 'linear-gradient(135deg, #6d7570 0%, #94A7AE 50%, #424f46 100%)', boxShadow: '0 10px 30px rgba(100,118,106,0.3)'}}
       >
         {isPending ? 'Posting...' : 'Post comment'}
       </button>

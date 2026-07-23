@@ -123,9 +123,9 @@ export default function TicketActions({
   }
 
   return (
-    <div className="mt-8 rounded-3xl border border-slate-200 bg-slate-50/70 p-6">
-      <h3 className="text-lg font-semibold text-slate-900">Actions</h3>
-      <p className="mt-1 text-sm text-slate-500">Available actions depend on your role and the ticket status.</p>
+    <div className="mt-8 rounded-3xl border p-6" style={{borderColor: '#6d7570', backgroundColor: '#F4F2F3'}}>
+      <h3 className="text-lg font-semibold" style={{color: '#424f46'}}>Actions</h3>
+      <p className="mt-1 text-sm" style={{color: '#94A7AE'}}>Available actions depend on your role and the ticket status.</p>
 
       {error && (
         <p className="mt-4 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-600">
@@ -136,11 +136,12 @@ export default function TicketActions({
       {showManagerControls && (
         <div className="mt-6 grid gap-6 lg:grid-cols-3">
           <div className="space-y-3">
-            <label className="block text-sm font-medium text-slate-700">Assign to</label>
+            <label className="block text-sm font-medium" style={{color: '#424f46'}}>Assign to</label>
             <select
               value={selectedAssignee}
               onChange={(event) => setSelectedAssignee(event.target.value)}
-              className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-100"
+              className="w-full rounded-2xl border px-4 py-3 text-sm outline-none transition focus:ring-2 focus:ring-[#94A7AE]"
+              style={{borderColor: '#6d7570', backgroundColor: 'white', color: '#424f46'}}
             >
               <option value="">Select technical staff</option>
               {technicalStaff.map((member) => (
@@ -153,18 +154,20 @@ export default function TicketActions({
               type="button"
               onClick={handleAssign}
               disabled={isPending}
-              className="w-full rounded-2xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:opacity-60"
+              className="w-full rounded-2xl px-4 py-3 text-sm font-semibold text-white transition hover:opacity-90 disabled:opacity-60"
+              style={{background: 'linear-gradient(135deg, #6d7570 0%, #94A7AE 50%, #424f46 100%)'}}
             >
               {isPending ? 'Assigning...' : 'Assign ticket'}
             </button>
           </div>
 
           <div className="space-y-3">
-            <label className="block text-sm font-medium text-slate-700">Priority</label>
+            <label className="block text-sm font-medium" style={{color: '#424f46'}}>Priority</label>
             <select
               value={selectedPriority}
               onChange={(event) => setSelectedPriority(event.target.value)}
-              className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-100"
+              className="w-full rounded-2xl border px-4 py-3 text-sm outline-none transition focus:ring-2 focus:ring-[#94A7AE]"
+              style={{borderColor: '#6d7570', backgroundColor: 'white', color: '#424f46'}}
             >
               {PRIORITIES.map((value) => (
                 <option key={value} value={value}>
@@ -176,18 +179,20 @@ export default function TicketActions({
               type="button"
               onClick={handlePriorityUpdate}
               disabled={isPending}
-              className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:opacity-60"
+              className="w-full rounded-2xl border bg-white px-4 py-3 text-sm font-semibold transition hover:opacity-80 disabled:opacity-60"
+              style={{borderColor: '#6d7570', color: '#424f46'}}
             >
               {isPending ? 'Updating...' : 'Update priority'}
             </button>
           </div>
 
           <div className="space-y-3">
-            <label className="block text-sm font-medium text-slate-700">Status</label>
+            <label className="block text-sm font-medium" style={{color: '#424f46'}}>Status</label>
             <select
               value={selectedStatus}
               onChange={(event) => setSelectedStatus(event.target.value)}
-              className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-100"
+              className="w-full rounded-2xl border px-4 py-3 text-sm outline-none transition focus:ring-2 focus:ring-[#94A7AE]"
+              style={{borderColor: '#6d7570', backgroundColor: 'white', color: '#424f46'}}
             >
               {STATUSES.map((value) => (
                 <option key={value} value={value}>
@@ -199,7 +204,8 @@ export default function TicketActions({
               type="button"
               onClick={handleStatusUpdate}
               disabled={isPending}
-              className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:opacity-60"
+              className="w-full rounded-2xl border bg-white px-4 py-3 text-sm font-semibold transition hover:opacity-80 disabled:opacity-60"
+              style={{borderColor: '#6d7570', color: '#424f46'}}
             >
               {isPending ? 'Updating...' : 'Update status'}
             </button>
@@ -214,7 +220,8 @@ export default function TicketActions({
               type="button"
               onClick={() => handleQuickStatus('IN_PROGRESS')}
               disabled={isPending}
-              className="rounded-2xl bg-gradient-to-r from-sky-500 to-violet-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-sky-200 transition hover:opacity-90 disabled:opacity-60"
+              className="rounded-2xl px-5 py-3 text-sm font-semibold text-white shadow-lg transition hover:opacity-90 disabled:opacity-60"
+              style={{background: 'linear-gradient(135deg, #6d7570 0%, #94A7AE 50%, #424f46 100%)', boxShadow: '0 10px 30px rgba(100,118,106,0.3)'}}
             >
               {isPending ? 'Starting...' : 'Start work'}
             </button>
@@ -225,7 +232,8 @@ export default function TicketActions({
               type="button"
               onClick={() => handleQuickStatus('RESOLVED')}
               disabled={isPending}
-              className="rounded-2xl bg-emerald-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-emerald-700 disabled:opacity-60"
+              className="rounded-2xl px-5 py-3 text-sm font-semibold text-white transition hover:opacity-90 disabled:opacity-60"
+              style={{background: '#94A7AE'}}
             >
               {isPending ? 'Updating...' : 'Mark as resolved'}
             </button>
@@ -239,7 +247,8 @@ export default function TicketActions({
             type="button"
             onClick={() => handleQuickStatus('CLOSED')}
             disabled={isPending}
-            className="rounded-2xl bg-emerald-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-emerald-700 disabled:opacity-60"
+            className="rounded-2xl px-5 py-3 text-sm font-semibold text-white transition hover:opacity-90 disabled:opacity-60"
+            style={{background: '#94A7AE'}}
           >
             {isPending ? 'Closing...' : 'Confirm resolution & close'}
           </button>

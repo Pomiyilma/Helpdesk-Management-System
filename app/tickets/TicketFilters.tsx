@@ -66,25 +66,27 @@ export default function TicketFilters({ searchParams, technicalStaff, userRole }
   };
 
   return (
-    <div className="rounded-2xl border border-slate-200 bg-slate-50/70 p-5">
+    <div className="rounded-2xl border p-5" style={{borderColor: '#6d7570', backgroundColor: '#F4F2F3'}}>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <div>
-          <label className="block text-sm font-medium text-slate-700 mb-2">Search</label>
+          <label className="block text-sm font-medium mb-2" style={{color: '#424f46'}}>Search</label>
           <input
             type="text"
             placeholder="Search by title..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-100"
+            className="w-full rounded-xl border px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-[#94A7AE]"
+            style={{borderColor: '#6d7570', backgroundColor: 'white', color: '#424f46'}}
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-700 mb-2">Status</label>
+          <label className="block text-sm font-medium mb-2" style={{color: '#424f46'}}>Status</label>
           <select
             value={status}
             onChange={(e) => setStatus(e.target.value)}
-            className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-100"
+            className="w-full rounded-xl border px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-[#94A7AE]"
+            style={{borderColor: '#6d7570', backgroundColor: 'white', color: '#424f46'}}
           >
             <option value="">All statuses</option>
             {STATUSES.map((s) => (
@@ -94,11 +96,12 @@ export default function TicketFilters({ searchParams, technicalStaff, userRole }
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-700 mb-2">Priority</label>
+          <label className="block text-sm font-medium mb-2" style={{color: '#424f46'}}>Priority</label>
           <select
             value={priority}
             onChange={(e) => setPriority(e.target.value)}
-            className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-100"
+            className="w-full rounded-xl border px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-[#94A7AE]"
+            style={{borderColor: '#6d7570', backgroundColor: 'white', color: '#424f46'}}
           >
             <option value="">All priorities</option>
             {PRIORITIES.map((p) => (
@@ -108,11 +111,12 @@ export default function TicketFilters({ searchParams, technicalStaff, userRole }
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-700 mb-2">Category</label>
+          <label className="block text-sm font-medium mb-2" style={{color: '#424f46'}}>Category</label>
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-            className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-100"
+            className="w-full rounded-xl border px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-[#94A7AE]"
+            style={{borderColor: '#6d7570', backgroundColor: 'white', color: '#424f46'}}
           >
             <option value="">All categories</option>
             {CATEGORIES.map((c) => (
@@ -123,11 +127,12 @@ export default function TicketFilters({ searchParams, technicalStaff, userRole }
 
         {userRole === 'MANAGER' && (
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">Assigned to</label>
+            <label className="block text-sm font-medium mb-2" style={{color: '#424f46'}}>Assigned to</label>
             <select
               value={assignedTo}
               onChange={(e) => setAssignedTo(e.target.value)}
-              className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-100"
+              className="w-full rounded-xl border px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-[#94A7AE]"
+              style={{borderColor: '#6d7570', backgroundColor: 'white', color: '#424f46'}}
             >
               <option value="">All technical staff</option>
               {technicalStaff.map((member) => (
@@ -140,11 +145,12 @@ export default function TicketFilters({ searchParams, technicalStaff, userRole }
         )}
 
         <div>
-          <label className="block text-sm font-medium text-slate-700 mb-2">Sort by</label>
+          <label className="block text-sm font-medium mb-2" style={{color: '#424f46'}}>Sort by</label>
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
-            className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-100"
+            className="w-full rounded-xl border px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-[#94A7AE]"
+            style={{borderColor: '#6d7570', backgroundColor: 'white', color: '#424f46'}}
           >
             {SORT_OPTIONS.map((option) => (
               <option key={option.value} value={option.value}>{option.label}</option>
@@ -156,13 +162,15 @@ export default function TicketFilters({ searchParams, technicalStaff, userRole }
       <div className="mt-4 flex gap-3">
         <button
           onClick={updateFilters}
-          className="rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
+          className="rounded-xl px-4 py-2 text-sm font-semibold text-white transition hover:opacity-90"
+          style={{background: 'linear-gradient(135deg, #6d7570 0%, #94A7AE 50%, #424f46 100%)'}}
         >
           Apply filters
         </button>
         <button
           onClick={clearFilters}
-          className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+          className="rounded-xl border bg-white px-4 py-2 text-sm font-semibold transition hover:opacity-80"
+          style={{borderColor: '#6d7570', color: '#424f46'}}
         >
           Clear all
         </button>

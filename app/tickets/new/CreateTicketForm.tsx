@@ -32,35 +32,38 @@ export default function CreateTicketForm() {
       )}
 
       <div className="space-y-3">
-        <label className="block text-sm font-medium text-slate-700">Title</label>
+        <label className="block text-sm font-medium" style={{color: '#424f46'}}>Title</label>
         <input 
           name="title" 
           placeholder="Add a short, clear title" 
           required
           minLength={5}
-          className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-sky-400 focus:bg-white focus:ring-2 focus:ring-sky-100" 
+          className="w-full rounded-2xl border px-4 py-3 text-sm outline-none transition focus:ring-2 focus:ring-[#94A7AE]"
+          style={{borderColor: '#6d7570', backgroundColor: '#F4F2F3', color: '#424f46'}}
         />
       </div>
 
       <div className="space-y-3">
-        <label className="block text-sm font-medium text-slate-700">Description</label>
+        <label className="block text-sm font-medium" style={{color: '#424f46'}}>Description</label>
         <textarea 
           name="description" 
           rows={5} 
           placeholder="Describe the issue, request, or update in a little detail"
           required
           minLength={10}
-          className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-sky-400 focus:bg-white focus:ring-2 focus:ring-sky-100" 
+          className="w-full rounded-2xl border px-4 py-3 text-sm outline-none transition focus:ring-2 focus:ring-[#94A7AE]"
+          style={{borderColor: '#6d7570', backgroundColor: '#F4F2F3', color: '#424f46'}}
         />
       </div>
 
       <div className="grid gap-5 md:grid-cols-2">
         <div className="space-y-3">
-          <label className="block text-sm font-medium text-slate-700">Category</label>
+          <label className="block text-sm font-medium" style={{color: '#424f46'}}>Category</label>
           <select 
             name="category" 
             required
-            className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-sky-400 focus:bg-white focus:ring-2 focus:ring-sky-100"
+            className="w-full rounded-2xl border px-4 py-3 text-sm outline-none transition focus:ring-2 focus:ring-[#94A7AE]"
+            style={{borderColor: '#6d7570', backgroundColor: '#F4F2F3', color: '#424f46'}}
           >
             <option value="">Select category</option>
             <option value="IT_SUPPORT">IT Support</option>
@@ -71,11 +74,12 @@ export default function CreateTicketForm() {
         </div>
 
         <div className="space-y-3">
-          <label className="block text-sm font-medium text-slate-700">Priority</label>
+          <label className="block text-sm font-medium" style={{color: '#424f46'}}>Priority</label>
           <select 
             name="priority" 
             required
-            className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-sky-400 focus:bg-white focus:ring-2 focus:ring-sky-100"
+            className="w-full rounded-2xl border px-4 py-3 text-sm outline-none transition focus:ring-2 focus:ring-[#94A7AE]"
+            style={{borderColor: '#6d7570', backgroundColor: '#F4F2F3', color: '#424f46'}}
           >
             <option value="">Select priority</option>
             <option value="LOW">Low</option>
@@ -89,7 +93,8 @@ export default function CreateTicketForm() {
       <button 
         type="submit" 
         disabled={isSubmitting}
-        className="w-full rounded-2xl bg-gradient-to-r from-sky-500 to-violet-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-sky-200 transition hover:opacity-90 disabled:opacity-60 disabled:cursor-not-allowed"
+        className="w-full rounded-2xl px-4 py-3 text-sm font-semibold text-white shadow-lg transition hover:opacity-90 disabled:opacity-60 disabled:cursor-not-allowed"
+        style={{background: 'linear-gradient(135deg, #6d7570 0%, #94A7AE 50%, #424f46 100%)', boxShadow: '0 10px 30px rgba(100,118,106,0.3)'}}
       >
         {isSubmitting ? 'Creating ticket...' : 'Create ticket'}
       </button>

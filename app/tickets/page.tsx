@@ -117,22 +117,22 @@ async function TicketList({ searchParams }: TicketListProps) {
 
       <div className="grid gap-4 mt-6">
         {sortedTickets.length === 0 ? (
-          <div className="rounded-3xl border border-slate-200 bg-slate-50/70 p-8 text-center">
-            <p className="text-slate-600">No tickets found matching your criteria.</p>
+          <div className="rounded-3xl border p-8 text-center" style={{borderColor: '#6d7570', backgroundColor: '#F4F2F3'}}>
+            <p style={{color: '#94A7AE'}}>No tickets found matching your criteria.</p>
           </div>
         ) : (
           sortedTickets.map((ticket) => (
-            <Link key={ticket.id} href={`/tickets/${ticket.id}`} className="block rounded-3xl border border-slate-200 bg-slate-50/70 p-5 transition hover:-translate-y-1 hover:border-sky-300 hover:bg-white">
+            <Link key={ticket.id} href={`/tickets/${ticket.id}`} className="block rounded-3xl border p-5 transition hover:-translate-y-1 hover:bg-white" style={{borderColor: '#6d7570', backgroundColor: '#F4F2F3'}}>
               <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                 <div className="flex-1">
                   <div className="flex flex-wrap items-center gap-2 mb-2">
-                    <span className="text-xs font-medium text-slate-500">{ticket.ticketId}</span>
-                    <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium uppercase tracking-[0.2em] text-slate-600">{ticket.priority}</span>
-                    <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">{ticket.category.replace(/_/g, ' ')}</span>
+                    <span className="text-xs font-medium" style={{color: '#94A7AE'}}>{ticket.ticketId}</span>
+                    <span className="rounded-full px-3 py-1 text-xs font-medium uppercase tracking-[0.2em] text-white" style={{backgroundColor: '#6d7570'}}>{ticket.priority}</span>
+                    <span className="rounded-full px-3 py-1 text-xs font-medium text-white" style={{backgroundColor: '#94A7AE'}}>{ticket.category.replace(/_/g, ' ')}</span>
                   </div>
-                  <h3 className="text-lg font-semibold text-slate-900">{ticket.title}</h3>
-                  <p className="mt-2 text-sm leading-6 text-slate-600 line-clamp-2">{ticket.description}</p>
-                  <div className="mt-3 flex flex-wrap items-center gap-4 text-xs text-slate-500">
+                  <h3 className="text-lg font-semibold" style={{color: '#424f46'}}>{ticket.title}</h3>
+                  <p className="mt-2 text-sm leading-6 line-clamp-2" style={{color: '#94A7AE'}}>{ticket.description}</p>
+                  <div className="mt-3 flex flex-wrap items-center gap-4 text-xs" style={{color: '#94A7AE'}}>
                     <span>Created by {ticket.createdBy?.name || ticket.createdBy?.email || 'Unknown'}</span>
                     {ticket.assignedTo && (
                       <span>Assigned to {ticket.assignedTo.name || ticket.assignedTo.email}</span>
@@ -140,7 +140,7 @@ async function TicketList({ searchParams }: TicketListProps) {
                     <span>{new Date(ticket.createdAt).toLocaleDateString()}</span>
                   </div>
                 </div>
-                <div className="rounded-2xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-600 whitespace-nowrap">
+                <div className="rounded-2xl border bg-white px-3 py-2 text-sm font-medium whitespace-nowrap" style={{borderColor: '#6d7570', color: '#424f46'}}>
                   {ticket.status.replace(/_/g, ' ')}
                 </div>
               </div>
@@ -163,17 +163,17 @@ export default async function TicketsPage({ searchParams }: TicketListProps) {
       subtitle="Review, route, and follow up on support items from one place."
       actions={
         user.role === 'EMPLOYEE' ? (
-          <Link href="/tickets/new" className="rounded-2xl bg-gradient-to-r from-sky-500 to-violet-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-sky-200 transition hover:opacity-90">
+          <Link href="/tickets/new" className="rounded-2xl px-4 py-3 text-sm font-semibold text-white shadow-lg transition hover:opacity-90" style={{background: 'linear-gradient(135deg, #6d7570 0%, #94A7AE 50%, #424f46 100%)', boxShadow: '0 10px 30px rgba(100,118,106,0.3)'}}>
             New ticket
           </Link>
         ) : null
       }
     >
-      <div className="rounded-[28px] border border-slate-200/70 bg-white/80 p-6 shadow-[0_20px_60px_rgba(15,23,42,0.08)] backdrop-blur sm:p-8">
+      <div className="rounded-[28px] border p-6 shadow-lg backdrop-blur sm:p-8" style={{borderColor: '#6d7570', backgroundColor: 'rgba(255,255,255,0.8)', boxShadow: '0 20px 60px rgba(100,118,106,0.12)'}}>
         <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.24em] text-sky-600">Queue</p>
-            <h2 className="text-2xl font-semibold text-slate-900">All tickets</h2>
+            <p className="text-sm font-semibold uppercase tracking-[0.24em]" style={{color: '#94A7AE'}}>Queue</p>
+            <h2 className="text-2xl font-semibold" style={{color: '#424f46'}}>All tickets</h2>
           </div>
         </div>
 

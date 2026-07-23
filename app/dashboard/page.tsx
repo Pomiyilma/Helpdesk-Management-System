@@ -51,39 +51,39 @@ export default async function Dashboard() {
       title="Dashboard"
       subtitle="A calm overview of active work and ticket momentum."
       actions={
-        <Link href="/tickets" className="rounded-2xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-800">
+        <Link href="/tickets" className="rounded-2xl px-4 py-3 text-sm font-semibold text-white transition hover:opacity-90" style={{background: 'linear-gradient(135deg, #6d7570 0%, #94A7AE 50%, #424f46 100%)'}}>
           View all tickets
         </Link>
       }
     >
-      <div className="rounded-[28px] border border-slate-200/70 bg-white/80 p-6 shadow-[0_20px_60px_rgba(15,23,42,0.08)] backdrop-blur sm:p-8">
+      <div className="rounded-[28px] border p-6 shadow-lg backdrop-blur sm:p-8" style={{borderColor: '#6d7570', backgroundColor: 'rgba(255,255,255,0.8)', boxShadow: '0 20px 60px rgba(100,118,106,0.12)'}}>
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.24em] text-sky-600">Today&apos;s pulse</p>
-            <h2 className="mt-2 text-3xl font-semibold text-slate-900">Good morning, {user.name?.split(' ')[0] || 'Team'}!</h2>
-            <p className="mt-2 text-sm text-slate-600">You&apos;re keeping the queue moving with clarity and calm.</p>
+            <p className="text-sm font-semibold uppercase tracking-[0.24em]" style={{color: '#94A7AE'}}>Today&apos;s pulse</p>
+            <h2 className="mt-2 text-3xl font-semibold" style={{color: '#424f46'}}>Good morning, {user.name?.split(' ')[0] || 'Team'}!</h2>
+            <p className="mt-2 text-sm" style={{color: '#94A7AE'}}>You&apos;re keeping the queue moving with clarity and calm.</p>
           </div>
         </div>
 
         <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           {user.role === 'MANAGER' && stats.map((s) => (
-            <div key={s.status} className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
-              <p className="text-sm font-medium text-slate-500">{s.status}</p>
-              <p className="mt-3 text-4xl font-semibold text-slate-900">{s.count}</p>
+            <div key={s.status} className="rounded-3xl border p-5" style={{borderColor: '#6d7570', backgroundColor: '#F4F2F3'}}>
+              <p className="text-sm font-medium" style={{color: '#94A7AE'}}>{s.status}</p>
+              <p className="mt-3 text-4xl font-semibold" style={{color: '#424f46'}}>{s.count}</p>
             </div>
           ))}
 
           {user.role === 'TECHNICAL' && (
-            <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
-              <p className="text-sm font-medium text-slate-500">Open assigned tickets</p>
-              <p className="mt-3 text-4xl font-semibold text-slate-900">{activeAssignedTickets}</p>
+            <div className="rounded-3xl border p-5" style={{borderColor: '#6d7570', backgroundColor: '#F4F2F3'}}>
+              <p className="text-sm font-medium" style={{color: '#94A7AE'}}>Open assigned tickets</p>
+              <p className="mt-3 text-4xl font-semibold" style={{color: '#424f46'}}>{activeAssignedTickets}</p>
             </div>
           )}
 
           {user.role === 'EMPLOYEE' && (
-            <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
-              <p className="text-sm font-medium text-slate-500">Your active requests</p>
-              <p className="mt-3 text-4xl font-semibold text-slate-900">{stats.length}</p>
+            <div className="rounded-3xl border p-5" style={{borderColor: '#6d7570', backgroundColor: '#F4F2F3'}}>
+              <p className="text-sm font-medium" style={{color: '#94A7AE'}}>Your active requests</p>
+              <p className="mt-3 text-4xl font-semibold" style={{color: '#424f46'}}>{stats.length}</p>
             </div>
           )}
         </div>

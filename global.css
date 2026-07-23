@@ -2,13 +2,19 @@
 
 :root {
   color-scheme: light;
+  
+  /* Elegant color palette */
+  --color-cream: #F4F2F3;
+  --color-mauve: #6d7570;
+  --color-sage: #94A7AE;
+  --color-forest: #424f46;
 }
 
 body {
   margin: 0;
-  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: #f8fbff;
-  color: #0f172a;
+  font-family: "Nunito", "Fredoka", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: var(--color-cream);
+  color: var(--color-forest);
 }
 
 * {

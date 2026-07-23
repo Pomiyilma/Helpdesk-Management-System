@@ -19,15 +19,15 @@ export default async function NewTicketPage() {
       title="New ticket"
       subtitle="Share a request with the team in a clear, structured way."
       actions={
-        <Link href="/tickets" className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+        <Link href="/tickets" className="rounded-2xl border bg-white px-4 py-3 text-sm font-semibold transition hover:opacity-80" style={{borderColor: '#6d7570', color: '#424f46'}}>
           Back to queue
         </Link>
       }
     >
-      <div className="rounded-[28px] border border-slate-200/70 bg-white/80 p-6 shadow-[0_20px_60px_rgba(15,23,42,0.08)] backdrop-blur sm:p-8">
+      <div className="rounded-[28px] border p-6 shadow-lg backdrop-blur sm:p-8" style={{borderColor: '#6d7570', backgroundColor: 'rgba(255,255,255,0.8)', boxShadow: '0 20px 60px rgba(100,118,106,0.12)'}}>
         <div className="mb-8">
-          <p className="text-sm font-semibold uppercase tracking-[0.24em] text-sky-600">Create request</p>
-          <h2 className="mt-2 text-2xl font-semibold text-slate-900">Tell us what needs attention.</h2>
+          <p className="text-sm font-semibold uppercase tracking-[0.24em]" style={{color: '#94A7AE'}}>Create request</p>
+          <h2 className="mt-2 text-2xl font-semibold" style={{color: '#424f46'}}>Tell us what needs attention.</h2>
         </div>
 
         <CreateTicketForm />
