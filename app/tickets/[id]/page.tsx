@@ -24,12 +24,13 @@ const commentTypeLabels: Record<string, string> = {
   ASSIGNMENT: 'Assignment',
 };
 
-export default async function TicketDetail({ params }: { params: { id: string } }) {
+export default async function TicketDetail({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const user = await getCurrentUser();
   if (!user) return notFound();
 
   const ticket = await prisma.ticket.findUnique({
-    where: { id: params.id },
+    where: { id },
     include: {
       createdBy: true,
       assignedTo: true,
