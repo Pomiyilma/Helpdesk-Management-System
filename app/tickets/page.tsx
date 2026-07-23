@@ -3,38 +3,158 @@ import { prisma } from '@/lib/prisma';
 import { getCurrentUser } from '@/lib/auth';
 import Link from 'next/link';
 import { AppShell } from '@/components/ui/AppShell';
+import { Suspense } from 'react';
+import TicketFilters from './TicketFilters';
 
 type TicketListItem = {
   id: string;
+  ticketId: string;
   title: string;
   description: string;
   priority: string;
   status: string;
+  category: string;
+  createdAt: Date;
+  createdBy: {
+    name: string | null;
+    email: string;
+  } | null;
+  assignedTo: {
+    name: string | null;
+    email: string;
+  } | null;
 };
 
-export default async function TicketsPage() {
+type TicketListProps = {
+  searchParams: {
+    status?: string;
+    priority?: string;
+    category?: string;
+    assignedTo?: string;
+    search?: string;
+    sortBy?: string;
+  };
+};
+
+async function TicketList({ searchParams }: TicketListProps) {
   const user = await getCurrentUser();
   if (!user) return <div>Please log in</div>;
 
-  let tickets: TicketListItem[] = [];
+  const where: any = {};
 
   if (user.role === 'MANAGER') {
-    tickets = await prisma.ticket.findMany({
-      include: { createdBy: true, assignedTo: true },
-      orderBy: { createdAt: 'desc' },
-    });
+    if (searchParams.assignedTo) {
+      where.assignedToId = searchParams.assignedTo;
+    }
   } else if (user.role === 'TECHNICAL') {
-    tickets = await prisma.ticket.findMany({
-      where: { assignedToId: user.id },
-      include: { createdBy: true },
-      orderBy: { createdAt: 'desc' },
-    });
+    where.assignedToId = user.id;
   } else {
-    tickets = await prisma.ticket.findMany({
-      where: { createdById: user.id },
-      orderBy: { createdAt: 'desc' },
-    });
+    where.createdById = user.id;
   }
+
+  if (searchParams.status) {
+    where.status = searchParams.status;
+  }
+
+  if (searchParams.priority) {
+    where.priority = searchParams.priority;
+  }
+
+  if (searchParams.category) {
+    where.category = searchParams.category;
+  }
+
+  if (searchParams.search) {
+    where.title = {
+      contains: searchParams.search,
+      mode: 'insensitive',
+    };
+  }
+
+  const priorityOrder = { CRITICAL: 0, HIGH: 1, MEDIUM: 2, LOW: 3 };
+  const statusOrder = { OPEN: 0, ASSIGNED: 1, IN_PROGRESS: 2, RESOLVED: 3, CLOSED: 4 };
+
+  let orderBy: any = { createdAt: 'desc' };
+  if (searchParams.sortBy === 'priority') {
+    orderBy = { priority: 'desc' };
+  } else if (searchParams.sortBy === 'status') {
+    orderBy = { status: 'asc' };
+  } else if (searchParams.sortBy === 'date') {
+    orderBy = { createdAt: 'desc' };
+  }
+
+  const tickets = await prisma.ticket.findMany({
+    where,
+    include: { createdBy: true, assignedTo: true },
+    orderBy,
+  });
+
+  const sortedTickets = [...tickets].sort((a, b) => {
+    if (searchParams.sortBy === 'priority') {
+      return priorityOrder[a.priority as keyof typeof priorityOrder] - priorityOrder[b.priority as keyof typeof priorityOrder];
+    }
+    if (searchParams.sortBy === 'status') {
+      return statusOrder[a.status as keyof typeof statusOrder] - statusOrder[b.status as keyof typeof statusOrder];
+    }
+    return 0;
+  });
+
+  const technicalStaff = user.role === 'MANAGER'
+    ? await prisma.user.findMany({
+        where: { role: 'TECHNICAL' },
+        select: { id: true, name: true, email: true },
+        orderBy: { name: 'asc' },
+      })
+    : [];
+
+  return (
+    <>
+      <TicketFilters
+        searchParams={searchParams}
+        technicalStaff={technicalStaff}
+        userRole={user.role}
+      />
+
+      <div className="grid gap-4 mt-6">
+        {sortedTickets.length === 0 ? (
+          <div className="rounded-3xl border border-slate-200 bg-slate-50/70 p-8 text-center">
+            <p className="text-slate-600">No tickets found matching your criteria.</p>
+          </div>
+        ) : (
+          sortedTickets.map((ticket) => (
+            <Link key={ticket.id} href={`/tickets/${ticket.id}`} className="block rounded-3xl border border-slate-200 bg-slate-50/70 p-5 transition hover:-translate-y-1 hover:border-sky-300 hover:bg-white">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                <div className="flex-1">
+                  <div className="flex flex-wrap items-center gap-2 mb-2">
+                    <span className="text-xs font-medium text-slate-500">{ticket.ticketId}</span>
+                    <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium uppercase tracking-[0.2em] text-slate-600">{ticket.priority}</span>
+                    <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">{ticket.category.replace(/_/g, ' ')}</span>
+                  </div>
+                  <h3 className="text-lg font-semibold text-slate-900">{ticket.title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-slate-600 line-clamp-2">{ticket.description}</p>
+                  <div className="mt-3 flex flex-wrap items-center gap-4 text-xs text-slate-500">
+                    <span>Created by {ticket.createdBy?.name || ticket.createdBy?.email || 'Unknown'}</span>
+                    {ticket.assignedTo && (
+                      <span>Assigned to {ticket.assignedTo.name || ticket.assignedTo.email}</span>
+                    )}
+                    <span>{new Date(ticket.createdAt).toLocaleDateString()}</span>
+                  </div>
+                </div>
+                <div className="rounded-2xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-600 whitespace-nowrap">
+                  {ticket.status.replace(/_/g, ' ')}
+                </div>
+              </div>
+            </Link>
+          ))
+        )}
+      </div>
+    </>
+  );
+}
+
+export default async function TicketsPage({ searchParams }: TicketListProps) {
+  const user = await getCurrentUser();
+  if (!user) return <div>Please log in</div>;
 
   return (
     <AppShell
@@ -53,28 +173,13 @@ export default async function TicketsPage() {
         <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.24em] text-sky-600">Queue</p>
-            <h2 className="text-2xl font-semibold text-slate-900">Open and recent tickets</h2>
+            <h2 className="text-2xl font-semibold text-slate-900">All tickets</h2>
           </div>
         </div>
 
-        <div className="grid gap-4">
-          {tickets.map((ticket) => (
-            <Link key={ticket.id} href={`/tickets/${ticket.id}`} className="block rounded-3xl border border-slate-200 bg-slate-50/70 p-5 transition hover:-translate-y-1 hover:border-sky-300 hover:bg-white">
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-                <div>
-                  <div className="flex flex-wrap items-center gap-2">
-                    <h3 className="text-lg font-semibold text-slate-900">{ticket.title}</h3>
-                    <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium uppercase tracking-[0.2em] text-slate-600">{ticket.priority}</span>
-                  </div>
-                  <p className="mt-2 text-sm leading-6 text-slate-600">{ticket.description}</p>
-                </div>
-                <div className="rounded-2xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-600">
-                  {ticket.status}
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
+        <Suspense fallback={<div className="text-slate-600">Loading tickets...</div>}>
+          <TicketList searchParams={searchParams} />
+        </Suspense>
       </div>
     </AppShell>
   );

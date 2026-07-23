@@ -31,6 +31,18 @@ export default async function Dashboard() {
     activeAssignedTickets = await prisma.ticket.count({
       where: { assignedToId: user.id, status: { not: 'CLOSED' } }
     });
+  } else if (user.role === 'EMPLOYEE') {
+    const employeeTickets = await prisma.ticket.findMany({
+      where: { createdById: user.id },
+      select: { status: true },
+    });
+
+    const counts = employeeTickets.reduce<Record<string, number>>((acc, ticket) => {
+      acc[ticket.status] = (acc[ticket.status] ?? 0) + 1;
+      return acc;
+    }, {});
+
+    stats = Object.entries(counts).map(([status, count]) => ({ status, count }));
   }
 
   return (

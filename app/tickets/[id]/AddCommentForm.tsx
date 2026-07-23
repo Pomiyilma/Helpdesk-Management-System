@@ -1,42 +1,61 @@
-// app/tickets/[id]/AddCommentForm.tsx
 'use client';
 
 import { addCommentAction } from '@/app/actions/ticket-actions';
-import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useState, useTransition } from 'react';
 
 export default function AddCommentForm({ ticketId }: { ticketId: string }) {
+  const router = useRouter();
   const [content, setContent] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [isPending, startTransition] = useTransition();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
     if (!content.trim()) return;
 
-    setIsLoading(true);
-    const formData = new FormData();
-    formData.append('ticketId', ticketId);
-    formData.append('content', content);
+    setError('');
+    startTransition(async () => {
+      const formData = new FormData();
+      formData.append('ticketId', ticketId);
+      formData.append('content', content);
 
-    await addCommentAction(formData);
-    setContent('');
-    setIsLoading(false);
+      const result = await addCommentAction(formData);
+      if (result?.error) {
+        setError(result.error);
+        return;
+      }
+
+      setContent('');
+      router.refresh();
+    });
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mt-10 border-t pt-8">
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div>
+        <h3 className="text-lg font-semibold text-slate-900">Add comment</h3>
+        <p className="mt-1 text-sm text-slate-500">Share an update with everyone who can access this ticket.</p>
+      </div>
+
+      {error && (
+        <p className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-600">{error}</p>
+      )}
+
       <textarea
         value={content}
-        onChange={(e) => setContent(e.target.value)}
+        onChange={(event) => setContent(event.target.value)}
         placeholder="Add a comment or update..."
-        className="w-full p-4 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-100"
         rows={3}
       />
-      <button 
-        type="submit" 
-        disabled={isLoading || !content.trim()}
-        className="mt-4 px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 disabled:opacity-50"
+
+      <button
+        type="submit"
+        disabled={isPending || !content.trim()}
+        className="rounded-2xl bg-gradient-to-r from-sky-500 to-violet-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-sky-200 transition hover:opacity-90 disabled:opacity-60"
       >
-        {isLoading ? 'Posting...' : 'Post Comment'}
+        {isPending ? 'Posting...' : 'Post comment'}
       </button>
     </form>
   );
