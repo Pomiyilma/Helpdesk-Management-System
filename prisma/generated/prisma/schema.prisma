@@ -1,4 +1,3 @@
-// prisma/schema.prisma
 generator client {
   provider = "prisma-client-js"
   output   = "./generated/prisma"
@@ -9,39 +8,35 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  password  String // hashed
-  name      String?
-  role      Role     @default(EMPLOYEE)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  createdTickets  Ticket[]        @relation("CreatedBy")
-  assignedTickets Ticket[]        @relation("AssignedTo")
+  id              String          @id @default(cuid())
+  email           String          @unique
+  password        String
+  name            String?
+  role            Role            @default(EMPLOYEE)
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
   comments        TicketComment[]
+  assignedTickets Ticket[]        @relation("AssignedTo")
+  createdTickets  Ticket[]        @relation("CreatedBy")
 
   @@map("users")
 }
 
 model Ticket {
-  id          String   @id @default(cuid())
-  ticketId    String   @unique @default("TKT-0000") // Will be generated in code
-  title       String
-  description String
-  category    Category
-  priority    Priority
-  status      Status   @default(OPEN)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
+  id           String          @id @default(cuid())
+  ticketId     String          @unique @default("TKT-0000")
+  title        String
+  description  String
+  category     Category
+  priority     Priority
+  status       Status          @default(OPEN)
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
   createdById  String
   assignedToId String?
-
-  createdBy  User  @relation("CreatedBy", fields: [createdById], references: [id])
-  assignedTo User? @relation("AssignedTo", fields: [assignedToId], references: [id])
-
-  comments TicketComment[]
+  comments     TicketComment[]
+  assignedTo   User?           @relation("AssignedTo", fields: [assignedToId], references: [id])
+  createdBy    User            @relation("CreatedBy", fields: [createdById], references: [id])
 
   @@map("tickets")
 }
@@ -49,14 +44,12 @@ model Ticket {
 model TicketComment {
   id        String      @id @default(cuid())
   content   String
-  type      CommentType @default(COMMENT) // COMMENT or STATUS_CHANGE or ASSIGNMENT
+  type      CommentType @default(COMMENT)
   createdAt DateTime    @default(now())
-
-  ticketId String
-  userId   String
-
-  ticket Ticket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
-  user   User   @relation(fields: [userId], references: [id])
+  ticketId  String
+  userId    String
+  ticket    Ticket      @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  user      User        @relation(fields: [userId], references: [id])
 
   @@map("ticket_comments")
 }
